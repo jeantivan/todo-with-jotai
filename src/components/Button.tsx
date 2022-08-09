@@ -1,5 +1,14 @@
 import { styled } from "@stitches/react";
-import { blue, blueA, red, redA, amber, amberA } from "@radix-ui/colors";
+import {
+  blue,
+  blueA,
+  red,
+  redA,
+  amber,
+  amberA,
+  grass,
+  grassA,
+} from "@radix-ui/colors";
 
 const Button = styled("button", {
   outline: "none",
@@ -8,11 +17,27 @@ const Button = styled("button", {
   color: "white",
   fontSize: 16,
   border: 0,
-  padding: "8px 20px",
   cursor: "pointer",
   transition: "background 100ms ease",
 
+  "& svg": {
+    width: 20,
+    height: 20,
+  },
+
   variants: {
+    fab: {
+      true: {
+        width: 48,
+        height: 48,
+        display: "inline-flex",
+        justifyContent: "center",
+        alignItems: "center",
+      },
+      false: {
+        padding: "8px 20px",
+      },
+    },
     rounded: {
       full: {
         borderRadius: 9999,
@@ -26,6 +51,12 @@ const Button = styled("button", {
         background: `linear-gradient(45deg, ${blue.blue8}, ${blueA.blueA9})`,
         "&:active": {
           background: `linear-gradient(45deg, ${blue.blue10}, ${blueA.blueA9})`,
+        },
+      },
+      check: {
+        background: `linear-gradient(45deg, ${grass.grass8}, ${grassA.grassA9})`,
+        "&:active": {
+          background: `linear-gradient(45deg, ${grass.grass10}, ${grassA.grassA9})`,
         },
       },
       danger: {
@@ -45,6 +76,7 @@ const Button = styled("button", {
   defaultVariants: {
     rounded: "base",
     action: "base",
+    fab: false,
   },
 });
 
