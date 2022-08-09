@@ -6,7 +6,8 @@ import {
   StarFilledIcon,
 } from "@radix-ui/react-icons";
 import Button from "./Button";
-import { amber, whiteA } from "@radix-ui/colors";
+import { amber } from "@radix-ui/colors";
+import { Todo, TodoAction } from "../type";
 
 const ButtonsContainer = styled("div", {
   display: "flex",
@@ -52,15 +53,7 @@ const TodoUrgent = styled("div", {
   },
 });
 
-type TodoProps = {
-  id: string;
-  todo: string;
-  isUrgent: boolean;
-  isCompleted: boolean;
-  deleteTodo: (id: string) => void;
-  completeTodo: (id: string) => void;
-  toggleUrgentTodo: (id: string) => void;
-};
+type TodoProps = Todo & TodoAction;
 
 export default function Todo(props: TodoProps) {
   return (
