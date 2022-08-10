@@ -3,6 +3,7 @@ export type Todo = {
   todo: string;
   isCompleted: boolean;
   isUrgent: boolean;
+  reactions: string[];
 };
 
 export type TodoAction = {
