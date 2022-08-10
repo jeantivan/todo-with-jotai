@@ -4,10 +4,14 @@ import {
   TrashIcon,
   StarIcon,
   StarFilledIcon,
+  PlusCircledIcon,
 } from "@radix-ui/react-icons";
 import Button from "./Button";
 import { amber } from "@radix-ui/colors";
+import { useAtom } from "jotai";
+import { todoAtomFamily } from "../store";
 import { Todo, TodoAction } from "../type";
+import { nanoid } from "nanoid";
 
 const ButtonsContainer = styled("div", {
   display: "flex",
@@ -24,11 +28,20 @@ const TodoContainer = styled("div", {
   alignItems: "center",
 });
 
-const TodoText = styled("div", {
+const TodoContent = styled("div", {
   flex: 1,
   padding: 16,
+  display: "flex",
+  flexDirection: "column",
+});
+
+const Reactions = styled("div", {
+  fontSize: 12,
+  color: "#bababa",
+});
+
+const TodoText = styled("div", {
   fontSize: 18,
-  cursor: "pointer",
 
   variants: {
     completed: {
@@ -53,45 +66,73 @@ const TodoUrgent = styled("div", {
   },
 });
 
-type TodoProps = Todo & TodoAction;
+type TodoProps = Todo & { deleteTodo: (id: string) => void };
 
-export default function Todo(props: TodoProps) {
+export default function TodoItem(props: TodoProps) {
+  const [todo, setTodo] = useAtom(
+    todoAtomFamily({
+      id: props.id,
+      todo: props.todo,
+    })
+  );
+
+  const toggleCompleted = () =>
+    setTodo({ ...todo, isCompleted: !todo.isCompleted });
+
+  const toggleUrgent = () => {
+    setTodo({ ...todo, isUrgent: !todo.isUrgent });
+  };
+
+  const addReaction = () => {
+    let newReactions: string[] = [...todo.reactions, nanoid()];
+    setTodo({ ...todo, reactions: newReactions as never[] });
+  };
+
   return (
     <TodoContainer>
-      {props.isUrgent && (
+      {todo.isUrgent && (
         <TodoUrgent>
           <StarFilledIcon />
         </TodoUrgent>
       )}
-      <TodoText completed={props.isCompleted}>{props.todo}</TodoText>
+
+      <TodoContent>
+        <TodoText completed={todo.isCompleted}>{todo.todo}</TodoText>
+        {todo.reactions.length > 0 && (
+          <Reactions>Reacciones: {todo.reactions.length}</Reactions>
+        )}
+      </TodoContent>
+
       <ButtonsContainer>
+        <Button onClick={addReaction} fab rounded="full" title="Add reactions">
+          <PlusCircledIcon />
+        </Button>
         <Button
-          onClick={() => {
-            props.completeTodo(props.id);
-          }}
+          onClick={toggleCompleted}
           fab
           rounded="full"
           action="check"
+          title="Complete Todo"
         >
           <CheckCircledIcon />
         </Button>
         <Button
-          onClick={() => {
-            props.toggleUrgentTodo(props.id);
-          }}
+          onClick={toggleUrgent}
           fab
           rounded="full"
           action="urgent"
+          title="Mark as urgent"
         >
           <StarIcon />
         </Button>
         <Button
           onClick={() => {
-            props.deleteTodo(props.id);
+            props.deleteTodo(todo.id);
           }}
           fab
           rounded="full"
           action="danger"
+          title="Delete todo"
         >
           <TrashIcon />
         </Button>
