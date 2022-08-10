@@ -54,7 +54,7 @@ export default function Filters() {
   const [filter, setFilter] = useAtom(filterAtom);
 
   const handleChange = (
-    value: "all" | "urgent" | "completed" | "incompleted"
+    value: "all" | "urgent" | "completed" | "incompleted" | "with-reactions"
   ) => {
     setFilter(value);
   };
@@ -78,10 +78,16 @@ export default function Filters() {
         <Label htmlFor="r3">Urgent</Label>
       </Flex>
       <Flex css={{ margin: "0 10px", alignItems: "center" }}>
-        <RadioGroupRadio value="incompleted" id="r3">
+        <RadioGroupRadio value="incompleted" id="incompleted">
           <RadioGroupIndicator />
         </RadioGroupRadio>
-        <Label htmlFor="r3">Incompleted</Label>
+        <Label htmlFor="incompleted">Incompleted</Label>
+      </Flex>
+      <Flex css={{ margin: "0 10px", alignItems: "center" }}>
+        <RadioGroupRadio value="with-reactions" id="with-reactions">
+          <RadioGroupIndicator />
+        </RadioGroupRadio>
+        <Label htmlFor="with-reactions">With reactions</Label>
       </Flex>
       <Flex css={{ margin: "0 10px", alignItems: "center" }}>
         <RadioGroupRadio value="completed" id="completed">
