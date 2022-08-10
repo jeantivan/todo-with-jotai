@@ -17,8 +17,12 @@ const Button = styled("button", {
   color: "white",
   fontSize: 16,
   border: 0,
-  cursor: "pointer",
   transition: "background 100ms ease",
+
+  "&:disabled": {
+    cursor: "not-allowed",
+    opacity: 0.6,
+  },
 
   "& svg": {
     width: 20,
